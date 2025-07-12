@@ -1,21 +1,48 @@
+// pages/courses/[id].tsx
+
 import { useRouter } from 'next/router';
-import { courses } from '@/data/courses';
+import useSWR from 'swr';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { enroll, unenroll } from '@/store/enrollmentSlice';
 import Layout from '@/components/Layout';
-import Button from '@/components/Button';
 import EnrollButton from '@/components/EnrollButton';
 import LinkButton from '@/components/LinkButton';
+import { Course } from '@/types/course';
+
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function CourseDetailsPage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const course = courses.find((c) => c.id === id);
+  const { data, error } = useSWR(id ? `/api/courses/${id}` : null, fetcher);
+  const course: Course | undefined = data?.course;
+
   const dispatch = useDispatch();
   const enrolledIds = useSelector((state: RootState) => state.enrollment.enrolledCourseIds);
   const isEnrolled = enrolledIds.includes(id as string);
+
+  const handleToggleEnrollment = () => {
+    if (!course) return;
+    isEnrolled ? dispatch(unenroll(course._id)) : dispatch(enroll(course._id));
+  };
+
+  if (error) {
+    return (
+      <Layout>
+        <p className="text-red-500">Failed to load course.</p>
+      </Layout>
+    );
+  }
+
+  if (!data) {
+    return (
+      <Layout>
+        <p className="text-gray-600">Loading...</p>
+      </Layout>
+    );
+  }
 
   if (!course) {
     return (
@@ -40,10 +67,6 @@ export default function CourseDetailsPage() {
     );
   }
 
-  const handleToggleEnrollment = () => {
-    isEnrolled ? dispatch(unenroll(course.id)) : dispatch(enroll(course.id));
-  };
-
   return (
     <Layout>
       <div className="max-w-screen-lg mx-auto">
@@ -57,7 +80,7 @@ export default function CourseDetailsPage() {
 
         <div className="bg-white rounded-lg shadow-md p-6 space-y-6">
           <h1 className="text-2xl font-bold text-blue-500">{course.title}</h1>
-          
+
           {isEnrolled && (
             <div className="bg-green-50 border border-green-200 rounded-md p-4">
               <div className="flex items-center">
@@ -108,12 +131,11 @@ export default function CourseDetailsPage() {
             <div className="bg-blue-50 rounded-md p-4">
               <h3 className="text-xl font-semibold text-gray-800 mb-4">Enrollment</h3>
               <p className="text-base text-gray-800 mb-4 leading-relaxed">
-                {isEnrolled 
+                {isEnrolled
                   ? "You're enrolled in this course. You can unenroll if you change your mind."
-                  : "Ready to start learning? Enroll in this course now!"
-                }
+                  : "Ready to start learning? Enroll in this course now!"}
               </p>
-              <EnrollButton 
+              <EnrollButton
                 isEnrolled={isEnrolled}
                 onToggle={handleToggleEnrollment}
                 className="w-full"

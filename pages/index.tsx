@@ -24,7 +24,7 @@ export default function HomePage() {
       {!data && <p className="text-gray-600 text-sm">Loading...</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {courses.length > 0 ? (
-          courses.map((course) => <CourseCard key={course.id} course={course} />)
+          courses.map((course) => <CourseCard key={course._id} course={course} />)
         ) : (
           <p className="text-gray-500">No courses found.</p>
         )}
