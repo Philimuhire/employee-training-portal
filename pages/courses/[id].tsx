@@ -23,7 +23,11 @@ export default function CourseDetailsPage() {
 
   const handleToggleEnrollment = () => {
     if (!course) return;
-    isEnrolled ? dispatch(unenroll(course._id)) : dispatch(enroll(course._id));
+    if (isEnrolled) {
+      dispatch(unenroll(course._id));
+    } else {
+      dispatch(enroll(course._id));
+    }
   };
 
   if (error) {
@@ -54,7 +58,7 @@ export default function CourseDetailsPage() {
             </div>
             <h1 className="text-2xl font-bold text-gray-800 mb-4">Course Not Found</h1>
             <p className="text-base text-gray-800 mb-6 leading-relaxed">
-              The course you're looking for doesn't exist or has been removed.
+              The course you are looking for does not exist or has been removed.
             </p>
             <LinkButton href="/" variant="primary">
               Back to Home
