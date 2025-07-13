@@ -7,7 +7,7 @@ A modern, responsive Employee Training Portal built with **Next.js**, **TypeScri
 ## Features
 
 - Home page with paginated list of training courses
-- Search bar to filter courses by keyword (case-insensitive)
+- Search bar to filter courses by title or description (case-insensitive)
 - Course details page with full description, prerequisites, instructor, etc.
 - Enroll/Unenroll functionality using Redux Toolkit
 - REST API endpoint to serve and filter courses 
