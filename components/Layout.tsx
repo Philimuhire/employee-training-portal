@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -22,12 +23,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="flex flex-col min-h-screen bg-gray-50">
       <header className="bg-white shadow-md" role="banner">
         <div className="max-w-screen-lg mx-auto px-4 py-4 flex justify-between items-center">
-          <Link 
-            href="/" 
-            className="text-2xl font-bold text-blue-500 hover:text-blue-600 transition-colors duration-200"
-            aria-label="Elevate Training Portal Home"
-          >
-            ElevateTrainingPortal 
+          <Link href="/" className="flex items-center space-x-2" aria-label="Elevate Training Portal Home">
+            <Image src="/LogoElevate.png" alt="Logo" width={40} height={40} priority />
+            <span className="text-2xl font-bold text-blue-500 hover:text-blue-600 transition-colors duration-200">
+              ElevateTrainingPortal
+            </span>
           </Link>
 
           <nav className="hidden md:flex space-x-4" role="navigation" aria-label="Main navigation">
