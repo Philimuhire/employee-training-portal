@@ -1,5 +1,3 @@
-// pages/courses/[id].tsx
-
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { useDispatch, useSelector } from 'react-redux';
