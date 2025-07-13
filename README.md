@@ -20,7 +20,7 @@ A modern, responsive Employee Training Portal built with **Next.js**, **TypeScri
 
 ## Tech Stack
 
-- **Framework:** Next.js 15
+- **Framework:** Next.js
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
 - **State Management:** Redux Toolkit
